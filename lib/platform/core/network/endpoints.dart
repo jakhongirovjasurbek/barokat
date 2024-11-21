@@ -86,7 +86,7 @@ abstract final class PlatformEndpoints {
   ///    "status_code": 400,
   ///    "message": "Error on creating passcode"
   /// }
-  static const String passcode = '/user/passcode';
+  static const String createPasscode = '/user/passcode';
 
   /// Requst method [GET]
   /// Request endpoint: /user
@@ -117,4 +117,32 @@ abstract final class PlatformEndpoints {
   ///    "message": "Error on creating passcode"
   /// }
   static const String user = '/user';
+
+  /// Requst method [POST]
+  /// Request endpoint: /user/signin-confirm
+  /// Example value:
+  ///
+  ///  {
+  ///   "phone_number": "+998901234567",
+  ///   "otp": 123456
+  /// }
+  ///
+  /// Success value:
+  ///
+  /// {
+  ///  "status_code": 201,
+  ///   "message": "success",
+  ///   "data": {
+  ///    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJpZCI6IjRkMGJ",
+  ///     "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJpZCI6IjRkMGJ"
+  ///   }
+  /// }
+  ///
+  /// Exception value:
+  ///
+  /// {
+  ///   "status_code": 400,
+  ///   "message": "OTP expired or invalid phone number"
+  /// }
+  static const String signinConfirm = '/user/signin-confirm';
 }

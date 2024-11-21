@@ -21,7 +21,7 @@ class AppTheme {
   static late AppTextStyles textThemeMedium;
   static late AppTextStyles textThemeSemiBold;
 
-  static Future<void> init() async {
+  static void init() {
     colors = _getThemeColors();
 
     // light

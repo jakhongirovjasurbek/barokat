@@ -8,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<void> main(List<Object> args) async {
   runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-
+      await ScreenUtil.ensureScreenSize();
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
@@ -41,21 +42,28 @@ class BarokatApp extends StatelessWidget {
     );
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthenticationBloc(),
-        ),
+        BlocProvider(create: (context) => AuthenticationBloc()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeAnimationCurve: Curves.slowMiddle,
-        onGenerateRoute: PlatformRouter.onGenerateRoute,
-        supportedLocales: AppLocalization.delegate.supportedLocales,
-        localizationsDelegates: const [
-          AppLocalization.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, _) {
+          ScreenUtil.init(context);
+
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            themeAnimationCurve: Curves.slowMiddle,
+            onGenerateRoute: PlatformRouter.onGenerateRoute,
+            supportedLocales: AppLocalization.delegate.supportedLocales,
+            localizationsDelegates: const [
+              AppLocalization.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+          );
+        },
       ),
     );
   }

@@ -69,6 +69,156 @@ class AppLocalization {
       args: [],
     );
   }
+
+  /// `Sign up`
+  String get signup {
+    return Intl.message(
+      'Sign up',
+      name: 'signup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I already have an account`
+  String get have_account {
+    return Intl.message(
+      'I already have an account',
+      name: 'have_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full name`
+  String get full_name {
+    return Intl.message(
+      'Full name',
+      name: 'full_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number`
+  String get phone_number {
+    return Intl.message(
+      'Phone number',
+      name: 'phone_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send code`
+  String get send_code {
+    return Intl.message(
+      'Send code',
+      name: 'send_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I agree with your Privacy policy`
+  String get agree_privacy {
+    return Intl.message(
+      'I agree with your Privacy policy',
+      name: 'agree_privacy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your messages`
+  String get check_message {
+    return Intl.message(
+      'Check your messages',
+      name: 'check_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activation code sent to`
+  String get activation_code_sent {
+    return Intl.message(
+      'Activation code sent to',
+      name: 'activation_code_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong number?`
+  String get wrong_number {
+    return Intl.message(
+      'Wrong number?',
+      name: 'wrong_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please, provide your full name`
+  String get name_not_empty {
+    return Intl.message(
+      'Please, provide your full name',
+      name: 'name_not_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please, provide your phone number`
+  String get phone_not_empty {
+    return Intl.message(
+      'Please, provide your phone number',
+      name: 'phone_not_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get continue_ {
+    return Intl.message(
+      'Continue',
+      name: 'continue_',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create passcode`
+  String get create_passcode {
+    return Intl.message(
+      'Create passcode',
+      name: 'create_passcode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm passcode`
+  String get confirm_password {
+    return Intl.message(
+      'Confirm passcode',
+      name: 'confirm_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passcode did not match`
+  String get passcode_mismatch {
+    return Intl.message(
+      'Passcode did not match',
+      name: 'passcode_mismatch',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

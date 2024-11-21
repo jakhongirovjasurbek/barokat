@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 @immutable
 class ScreenSize {
   const ScreenSize._();
+
   static late double w2;
   static late double w4;
   static late double w6;
@@ -65,7 +66,7 @@ class ScreenSize {
     }
   }
 
-  static Future<void> setSizes() async {
+  static void setSizes() {
     w2 = 2.w;
     w4 = 4.w;
     w6 = 6.w;

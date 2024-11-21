@@ -13,6 +13,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'authentication_event.dart';
+
 part 'authentication_state.dart';
 
 class AuthenticationBloc
@@ -60,13 +61,11 @@ class AuthenticationBloc
     });
 
     on<AuthenticationStatusChanged>((event, emit) async {
-      print('Im here 5');
       switch (event.status) {
         case AuthenticationStatus.unknown:
           emit(const AuthenticationState.unauthenticated());
           break;
         case AuthenticationStatus.authenticated:
-          print('Hello world');
           final usecase = AuthenticateUseCase(
             authenticationRepository: AuthenticationRepositoryImpl(
               authenticationRemoteDataSource:
@@ -74,11 +73,8 @@ class AuthenticationBloc
             ),
           );
 
-          print('Passed usecase');
-
           final response = await usecase.call(NoParams());
 
-          print('Passed response $response');
           response.either((failure) {
             emit(const AuthenticationState.unauthenticated());
           }, (user) {

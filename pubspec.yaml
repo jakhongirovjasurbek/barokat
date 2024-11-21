@@ -32,6 +32,8 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   shimmer: ^3.0.0
   flutter_screenutil: ^5.9.3
+  mask_text_input_formatter: ^2.9.0
+  flutter_animator: ^3.2.2
 
 dev_dependencies:
   flutter_test:

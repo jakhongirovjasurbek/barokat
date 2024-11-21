@@ -8,7 +8,10 @@ class DioSettings {
     receiveTimeout: const Duration(milliseconds: 35000),
     followRedirects: false,
     headers: <String, dynamic>{
-      'Accept-Language': StorageRepository.getString('language', defValue: 'uz')
+      'Accept-Language':
+          StorageRepository.getString('language', defValue: 'uz'),
+      if (StorageRepository.getString('accessToken').isNotEmpty)
+        'Authorization': 'Bearer ${StorageRepository.getString('accessToken')}',
     },
     validateStatus: (status) => status != null && status <= 500,
   );

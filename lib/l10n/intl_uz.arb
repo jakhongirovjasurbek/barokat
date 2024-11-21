@@ -1,5 +1,7 @@
 {
     "@@locale": "uz",
     "main": "Asosiy",
-    "payment": "To'lov"
+    "payment": "To'lov",
+    "signup": "Sign up",
+    "have_account": "I already have an account"
 }

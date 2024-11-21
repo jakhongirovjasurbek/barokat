@@ -2,17 +2,17 @@ import 'package:barokat/core/either/either.dart';
 import 'package:barokat/core/failure/failure.dart';
 import 'package:barokat/core/usecase/usecase.dart';
 import 'package:barokat/platform/features/authentication/domain/repository/auth.dart';
-import 'package:barokat/platform/features/authentication/domain/usecase/confirm_phone/params/params.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/create_passcode/params/params.dart';
 
-class ConfirmPhoneUseCase extends UseCase<void, ConfirmPhoneParams> {
+class CreatePasscodeUseCase extends UseCase<void, CreatePasscodeParams> {
   final AuthenticationRepository _authenticationRepository;
 
-  ConfirmPhoneUseCase({
+  CreatePasscodeUseCase({
     required AuthenticationRepository authenticationRepository,
   }) : _authenticationRepository = authenticationRepository;
 
   @override
   Future<Either<Failure, dynamic>> call(params) async {
-    return _authenticationRepository.confirmPhoneNumber(params);
+    return _authenticationRepository.createPasscode(params);
   }
 }

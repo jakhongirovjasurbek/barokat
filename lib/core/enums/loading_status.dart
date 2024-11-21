@@ -2,5 +2,8 @@ enum LoadingStatus {
   pure,
   loading,
   loadSuccess,
-  loadFailure,
+  loadFailure;
+
+  bool get isLoading => this == LoadingStatus.loading;
+  bool get hasError => this == LoadingStatus.loadFailure;
 }

@@ -1,9 +1,10 @@
+import 'package:barokat/core/theme/screen_size/screen_size.dart';
 import 'package:barokat/core/theme/theme.dart';
 import 'package:barokat/core/ui_kit/scale/scale.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WButton extends StatelessWidget {
+class ButtonX extends StatelessWidget {
   final double? width;
   final double? height;
   final String text;
@@ -20,7 +21,7 @@ class WButton extends StatelessWidget {
   final double? borderRadius;
   final Color disabledColor;
 
-  const WButton({
+  const ButtonX({
     required this.onTap,
     this.width,
     this.borderRadius,
@@ -51,22 +52,29 @@ class WButton extends StatelessWidget {
           isDisabled: disabled,
           child: Container(
             width: width,
-            height: height,
-            padding: padding ?? const EdgeInsets.all(14),
+            height: height ?? ScreenSize.h48,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: disabled
                   ? disabledColor
                   : color ?? AppTheme.colors.surfaceBrand,
-              borderRadius: BorderRadius.circular(borderRadius ?? 30),
+              borderRadius: BorderRadius.circular(
+                borderRadius ?? ScreenSize.r8,
+              ),
               border: border,
             ),
             child: switch (loading) {
-              (true) => const Center(child: CupertinoActivityIndicator()),
+              (true) => Center(
+                    child: CupertinoActivityIndicator(
+                  color: AppTheme.colors.textOnBrand,
+                )),
               (false) => child ??
                   Text(
                     text,
-                    style: textStyle,
+                    style: textStyle ??
+                        AppTheme.textThemeMedium.textBase.copyWith(
+                          color: AppTheme.colors.textOnBrand,
+                        ),
                   ),
             },
           ),

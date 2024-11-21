@@ -1,5 +1,20 @@
 {
-    "@@locale": "en",
-    "main": "Asosiy",
-    "payment": "To'lov"
+  "@@locale": "en",
+  "main": "Asosiy",
+  "payment": "To'lov",
+  "signup": "Sign up",
+  "have_account": "I already have an account",
+  "full_name": "Full name",
+  "phone_number": "Phone number",
+  "send_code": "Send code",
+  "agree_privacy": "I agree with your Privacy policy",
+  "check_message": "Check your messages",
+  "activation_code_sent": "Activation code sent to",
+  "wrong_number": "Wrong number?",
+  "name_not_empty": "Please, provide your full name",
+  "phone_not_empty": "Please, provide your phone number",
+  "continue_": "Continue",
+  "create_passcode": "Create passcode",
+  "confirm_password": "Confirm passcode",
+  "passcode_mismatch": "Passcode did not match"
 }

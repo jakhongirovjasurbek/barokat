@@ -1,5 +1,6 @@
 {
     "@@locale": "ru",
     "main": "Asosiy",
-    "payment": "To'lov"
+    "payment": "To'lov",
+    "signup": "Sign up"
 }

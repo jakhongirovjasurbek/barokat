@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:barokat/core/authentication_info/authentication_info.dart';
 import 'package:barokat/core/enums/authentication_status.dart';
 import 'package:barokat/packages/shared_preferences/storage_repository.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 
 final serviceLocator = GetIt.instance;
@@ -15,4 +16,6 @@ Future<void> setupLocator() async {
   serviceLocator.registerLazySingleton(() => AuthenticationInfoImpl(
         controller: StreamController<AuthenticationStatus>(),
       ));
+
+
 }
