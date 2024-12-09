@@ -2,12 +2,15 @@ import 'package:barokat/core/either/either.dart';
 import 'package:barokat/core/exception/exception.dart';
 import 'package:barokat/core/failure/failure.dart';
 import 'package:barokat/packages/shared_preferences/storage_repository.dart';
+import 'package:barokat/platform/assets/contants.dart';
 import 'package:barokat/platform/features/authentication/data/data_source/remote/auth.dart';
 import 'package:barokat/platform/features/authentication/data/model/auth/user.dart';
 import 'package:barokat/platform/features/authentication/domain/enttiy/auth_user/user.dart';
 import 'package:barokat/platform/features/authentication/domain/repository/auth.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/auth/params/params.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/confirm_phone/params/params.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/create_passcode/params/params.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/login/params/params.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/signup/params/params.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -18,6 +21,38 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   });
 
   @override
+  Future<Either<ServerFailure, AuthUserEntity>> authenticate(
+    AuthParams params,
+  ) async {
+    try {
+      final response = await authenticationRemoteDataSource.authenticate(
+        params,
+      );
+      final user = AuthUserModel.fromJson(response['data']);
+      return Right(user);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(
+        errorMessage: error.statusMessage,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, void>> signup(SignupParams params) async {
+    try {
+      final response = await authenticationRemoteDataSource.signup(params);
+
+      return Right(response);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(
+        errorMessage: error.statusMessage,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
+  @override
   Future<Either<ServerFailure, void>> confirmPhoneNumber(
     ConfirmPhoneParams params,
   ) async {
@@ -25,14 +60,42 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await authenticationRemoteDataSource.verifyPhoneNumber(
         params,
       );
+      if (params.isLogin) {
+        await StorageRepository.putString(
+          PlatformConstants.accessToken,
+          response['data']['access_token'],
+        );
+        await StorageRepository.putString(
+          'refresh_token',
+          response['data']['refresh_token'],
+        );
+      }
 
-      print('Response: $response');
+      return Right(response);
+    } on ServerException catch (error, stacktrace) {
+      print('Stacktrace: $stacktrace');
+      return Left(ServerFailure(
+        errorMessage: error.statusMessage,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, void>> createPasscode(
+    CreatePasscodeParams params,
+  ) async {
+    try {
+      final response = await authenticationRemoteDataSource.createPasscode(
+        params,
+      );
+
       await StorageRepository.putString(
-        'accessToken',
+        PlatformConstants.accessToken,
         response['data']['access_token'],
       );
       await StorageRepository.putString(
-        'refreshToken',
+        'refresh_token',
         response['data']['refresh_token'],
       );
 
@@ -46,14 +109,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<ServerFailure, void>> sendPhoneNumber({
-    required String phoneNumber,
-  }) async {
+  Future<Either<ServerFailure, void>> login(LoginParams params) async {
     try {
-      final response = await authenticationRemoteDataSource.sendPhoneNumber(
-        phone: phoneNumber,
-      );
-      return Right(response);
+      final _ = await authenticationRemoteDataSource.login(params);
+
+      return Right(_);
     } on ServerException catch (error) {
       return Left(ServerFailure(
         errorMessage: error.statusMessage,
@@ -63,30 +123,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<ServerFailure, AuthUserEntity>> authenticate() async {
+  Future<Either<ServerFailure, void>> deleteAccount(String userId) async {
     try {
-      print('Auth in process');
-      final response = await authenticationRemoteDataSource.authenticate();
+      final _ = await authenticationRemoteDataSource.deleteAccount(userId);
 
-      print('Auth finished with success: $response');
-
-      final user = AuthUserModel.fromJson(response);
-      return Right(user);
-    } on ServerException catch (error) {
-      print('Auth failed: ${error.statusMessage}');
-      return Left(ServerFailure(
-        errorMessage: error.statusMessage,
-        statusCode: error.statusCode,
-      ));
-    }
-  }
-
-  @override
-  Future<Either<ServerFailure, int>> signup(SignupParams params) async {
-    try {
-      final response = await authenticationRemoteDataSource.signup(params);
-
-      return Right(response['data']);
+      return Right(_);
     } on ServerException catch (error) {
       return Left(ServerFailure(
         errorMessage: error.statusMessage,
@@ -96,18 +137,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<ServerFailure, AuthUserEntity>> createPasscode(
-    CreatePasscodeParams params,
-  ) async {
+  Future<Either<ServerFailure, void>> logout() async {
     try {
-      final response = await authenticationRemoteDataSource.createPasscode(
-        params,
-      );
-      print('Auth finished with success: $response');
+      final _ = await authenticationRemoteDataSource.logout();
 
-      final user = AuthUserModel.fromJson(response);
-      await StorageRepository.putString('passcode', user.passcode);
-      return Right(user);
+      return Right(_);
     } on ServerException catch (error) {
       return Left(ServerFailure(
         errorMessage: error.statusMessage,

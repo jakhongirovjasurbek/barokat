@@ -70,11 +70,31 @@ class AppLocalization {
     );
   }
 
+  /// `Profil`
+  String get profile {
+    return Intl.message(
+      'Profil',
+      name: 'profile',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign up`
   String get signup {
     return Intl.message(
       'Sign up',
       name: 'signup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message(
+      'Login',
+      name: 'login',
       desc: '',
       args: [],
     );
@@ -215,6 +235,46 @@ class AppLocalization {
     return Intl.message(
       'Passcode did not match',
       name: 'passcode_mismatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No notifications`
+  String get no_notifications {
+    return Intl.message(
+      'No notifications',
+      name: 'no_notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to authenticate`
+  String get failed_to_auth {
+    return Intl.message(
+      'Failed to authenticate',
+      name: 'failed_to_auth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passcode is not correct`
+  String get passcode_incorrect {
+    return Intl.message(
+      'Passcode is not correct',
+      name: 'passcode_incorrect',
       desc: '',
       args: [],
     );

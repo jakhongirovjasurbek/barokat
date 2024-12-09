@@ -33,18 +33,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "continue_": MessageLookupByLibrary.simpleMessage("Continue"),
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("Create passcode"),
+        "failed_to_auth":
+            MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
         "full_name": MessageLookupByLibrary.simpleMessage("Full name"),
         "have_account":
             MessageLookupByLibrary.simpleMessage("I already have an account"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "main": MessageLookupByLibrary.simpleMessage("Asosiy"),
         "name_not_empty": MessageLookupByLibrary.simpleMessage(
             "Please, provide your full name"),
+        "no_notifications":
+            MessageLookupByLibrary.simpleMessage("No notifications"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "passcode_incorrect":
+            MessageLookupByLibrary.simpleMessage("Passcode is not correct"),
         "passcode_mismatch":
             MessageLookupByLibrary.simpleMessage("Passcode did not match"),
         "payment": MessageLookupByLibrary.simpleMessage("To\'lov"),
         "phone_not_empty": MessageLookupByLibrary.simpleMessage(
             "Please, provide your phone number"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Phone number"),
+        "profile": MessageLookupByLibrary.simpleMessage("Profil"),
         "send_code": MessageLookupByLibrary.simpleMessage("Send code"),
         "signup": MessageLookupByLibrary.simpleMessage("Sign up"),
         "wrong_number": MessageLookupByLibrary.simpleMessage("Wrong number?")

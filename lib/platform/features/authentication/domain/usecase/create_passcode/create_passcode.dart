@@ -12,7 +12,7 @@ class CreatePasscodeUseCase extends UseCase<void, CreatePasscodeParams> {
   }) : _authenticationRepository = authenticationRepository;
 
   @override
-  Future<Either<Failure, dynamic>> call(params) async {
+  Future<Either<Failure, void>> call(params) async {
     return _authenticationRepository.createPasscode(params);
   }
 }

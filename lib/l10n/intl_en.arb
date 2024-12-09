@@ -2,7 +2,9 @@
   "@@locale": "en",
   "main": "Asosiy",
   "payment": "To'lov",
+  "profile": "Profil",
   "signup": "Sign up",
+  "login": "Login",
   "have_account": "I already have an account",
   "full_name": "Full name",
   "phone_number": "Phone number",
@@ -16,5 +18,9 @@
   "continue_": "Continue",
   "create_passcode": "Create passcode",
   "confirm_password": "Confirm passcode",
-  "passcode_mismatch": "Passcode did not match"
+  "passcode_mismatch": "Passcode did not match",
+  "notifications": "Notifications",
+  "no_notifications": "No notifications",
+  "failed_to_auth": "Failed to authenticate",
+  "passcode_incorrect": "Passcode is not correct"
 }

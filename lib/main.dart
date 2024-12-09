@@ -25,6 +25,7 @@ Future<void> main(List<Object> args) async {
       runApp(const BarokatApp());
     },
     (error, stacktrace) {
+      print('Exception, $error, \n$stacktrace');
       // TODO: Handle exception
     },
   );
@@ -45,13 +46,19 @@ class BarokatApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthenticationBloc()),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(360, 690),
+        designSize: const Size(393, 852),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, _) {
           ScreenUtil.init(context);
 
           return MaterialApp(
+            theme: ThemeData(
+              scaffoldBackgroundColor: const Color(0xFFDAE2E2),
+              appBarTheme: const AppBarTheme(
+                backgroundColor: const Color(0xFFDAE2E2),
+              )
+            ),
             debugShowCheckedModeBanner: false,
             themeAnimationCurve: Curves.slowMiddle,
             onGenerateRoute: PlatformRouter.onGenerateRoute,

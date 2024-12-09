@@ -2,22 +2,30 @@ import 'dart:async';
 
 import 'package:barokat/core/authentication_info/authentication_info.dart';
 import 'package:barokat/core/enums/authentication_status.dart';
+import 'package:barokat/core/functions/parse_jwt.dart';
 import 'package:barokat/core/singletons/singletons.dart';
 import 'package:barokat/core/usecase/usecase.dart';
 import 'package:barokat/packages/shared_preferences/storage_repository.dart';
+import 'package:barokat/platform/assets/contants.dart';
 import 'package:barokat/platform/features/authentication/data/data_source/remote/auth.dart';
 import 'package:barokat/platform/features/authentication/data/repository/authentication/authentication.dart';
 import 'package:barokat/platform/features/authentication/domain/enttiy/auth_user/user.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/auth/auth.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/auth/params/params.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/delete_account/usecase.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/logout/usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'authentication_event.dart';
-
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  final _repository = AuthenticationRepositoryImpl(
+    authenticationRemoteDataSource: AuthenticationRemoteDataSourceImpl(),
+  );
+
   /// A `StreamSubscription` used to listen to authentication status changes
   /// from the `AuthenticationInfoImpl` service.
   late StreamSubscription _streamSubscription;
@@ -54,7 +62,6 @@ class AuthenticationBloc
 
     /// Handle `GetAuthenticationStatus` event.
     on<GetAuthenticationStatus>((event, emit) {
-      print('Im here 3');
       add(const AuthenticationStatusChanged(
         status: AuthenticationStatus.authenticated,
       ));
@@ -66,23 +73,30 @@ class AuthenticationBloc
           emit(const AuthenticationState.unauthenticated());
           break;
         case AuthenticationStatus.authenticated:
-          final usecase = AuthenticateUseCase(
-            authenticationRepository: AuthenticationRepositoryImpl(
-              authenticationRemoteDataSource:
-                  AuthenticationRemoteDataSourceImpl(),
-            ),
+          final token = StorageRepository.getString(
+            PlatformConstants.accessToken,
           );
 
-          final response = await usecase.call(NoParams());
-
-          response.either((failure) {
+          if (token.isEmpty) {
             emit(const AuthenticationState.unauthenticated());
-          }, (user) {
-            emit(AuthenticationState.authenticated(
-              user,
-              dontRebuild: false,
-            ));
-          });
+            return;
+          }
+
+          final userId = parseJwt(token)['id'];
+          final usecase = AuthenticateUseCase(
+            authenticationRepository: _repository,
+          );
+
+          final response = await usecase.call(AuthParams(userId: userId));
+
+          response.either(
+            (failure) => emit(const AuthenticationState.unauthenticated()),
+            (user) {
+              emit(
+                AuthenticationState.authenticated(user),
+              );
+            },
+          );
           break;
         case AuthenticationStatus.unauthenticated:
           emit(const AuthenticationState.unauthenticated());
@@ -115,11 +129,33 @@ class AuthenticationBloc
     /// storage, and the `AuthenticationState.unauthenticated()` is a state that
     /// indicates the user is logged out and needs to re-authenticate.
     on<LogoutRequested>((event, emit) async {
-      await StorageRepository.putString("accessToken", '');
+      await LogoutUseCase(
+        authenticationRepository: _repository,
+      ).call(const NoParams());
 
-      await StorageRepository.putString("refreshToken", '');
+      await StorageRepository.putString(PlatformConstants.accessToken, '');
 
-      await StorageRepository.putString("passcode", '');
+      await StorageRepository.putString(PlatformConstants.refreshToken, '');
+
+      await StorageRepository.putString(PlatformConstants.passcode, '');
+
+      await StorageRepository.putString(PlatformConstants.userId, '');
+
+      emit(const AuthenticationState.unauthenticated());
+    });
+
+    on<DeleteAccountRequested>((event, emit) async {
+      await DeleteAccountUseCase(
+        authenticationRepository: _repository,
+      ).call(state.user.id);
+
+      await StorageRepository.putString(PlatformConstants.accessToken, '');
+
+      await StorageRepository.putString(PlatformConstants.refreshToken, '');
+
+      await StorageRepository.putString(PlatformConstants.passcode, '');
+
+      await StorageRepository.putString(PlatformConstants.userId, '');
 
       emit(const AuthenticationState.unauthenticated());
     });

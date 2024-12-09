@@ -6,6 +6,8 @@ import 'package:barokat/platform/features/authentication/domain/usecase/confirm_
 import 'package:barokat/platform/features/authentication/domain/usecase/confirm_phone/params/params.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/create_passcode/create_passcode.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/create_passcode/params/params.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/login/login.dart';
+import 'package:barokat/platform/features/authentication/domain/usecase/login/params/params.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/signup/params/params.dart';
 import 'package:barokat/platform/features/authentication/domain/usecase/signup/signup.dart';
 import 'package:bloc/bloc.dart';
@@ -28,10 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         authenticationRepository: AuthenticationRepositoryImpl(
           authenticationRemoteDataSource: AuthenticationRemoteDataSourceImpl(),
         ),
-      ).call(SignupParams(
-        fullName: event.fullName,
-        phoneNumber: event.phoneNumber,
-      ));
+      ).call(SignupParams(phoneNumber: event.phoneNumber));
 
       response.either(
         (failure) {
@@ -41,7 +40,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           ));
         },
         (_) {
-          print(('OTP: $_'));
           emit(state.copyWith(
             status: LoadingStatus.loadSuccess,
             phoneNumber: event.phoneNumber,
@@ -87,8 +85,63 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           authenticationRemoteDataSource: AuthenticationRemoteDataSourceImpl(),
         ),
       ).call(CreatePasscodeParams(
+        fullName: state.fullName,
         passcode: event.passcode,
         phone: state.phoneNumber,
+      ));
+
+      response.either(
+        (failure) {
+          emit(state.copyWith(
+            status: LoadingStatus.loadFailure,
+            failure: failure,
+          ));
+        },
+        (_) {
+          emit(state.copyWith(status: LoadingStatus.loadSuccess));
+          event.onSuccess();
+        },
+      );
+    });
+
+    on<LoginSignInSendCodeButtonTapped>((event, emit) async {
+      emit(state.copyWith(status: LoadingStatus.loading));
+
+      final response = await LoginUseCase(
+        authenticationRepository: AuthenticationRepositoryImpl(
+          authenticationRemoteDataSource: AuthenticationRemoteDataSourceImpl(),
+        ),
+      ).call(LoginParams(phoneNumber: event.phoneNumber));
+
+      response.either(
+        (failure) {
+          emit(state.copyWith(
+            status: LoadingStatus.loadFailure,
+            failure: failure,
+          ));
+        },
+        (_) {
+          print(('OTP: $_'));
+          emit(state.copyWith(
+            status: LoadingStatus.loadSuccess,
+            phoneNumber: event.phoneNumber,
+          ));
+          event.onSuccess();
+        },
+      );
+    });
+
+    on<LoginSignInOTPContinueButtonTapped>((event, emit) async {
+      emit(state.copyWith(status: LoadingStatus.loading));
+
+      final response = await ConfirmPhoneUseCase(
+        authenticationRepository: AuthenticationRepositoryImpl(
+          authenticationRemoteDataSource: AuthenticationRemoteDataSourceImpl(),
+        ),
+      ).call(ConfirmPhoneParams(
+        phone: state.phoneNumber,
+        code: event.otp,
+        isLogin: true,
       ));
 
       response.either(

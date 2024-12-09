@@ -12,7 +12,10 @@ class GetAuthenticationStatus extends AuthenticationEvent {}
 
 class AuthenticationStatusChanged extends AuthenticationEvent {
   final AuthenticationStatus status;
+
   const AuthenticationStatusChanged({required this.status});
 }
 
 class LogoutRequested extends AuthenticationEvent {}
+
+class DeleteAccountRequested extends AuthenticationEvent {}

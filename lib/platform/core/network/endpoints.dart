@@ -25,6 +25,31 @@ abstract final class PlatformEndpoints {
   static const String signup = '/user/signup';
 
   /// Requst method [POST]
+  /// Request endpoint: /user/login
+  /// Example value:
+  ///
+  /// {
+  ///   "full_name": "John Doe",
+  ///   "phone_number": "+998901234567"
+  /// }
+  ///
+  /// Success value:
+  ///
+  /// {
+  ///   "status_code": 200,
+  ///   "message": "success",
+  ///   "data": 123456
+  /// }
+  ///
+  /// Exception value:
+  ///
+  /// {
+  ///   "status_code": 400,
+  ///   "message": "Error on generate OTP"
+  /// }
+  static const String login = '/user/signin';
+
+  /// Requst method [POST]
   /// Request endpoint: /user/signup-confirm
   /// Example value:
   ///
@@ -145,4 +170,8 @@ abstract final class PlatformEndpoints {
   ///   "message": "OTP expired or invalid phone number"
   /// }
   static const String signinConfirm = '/user/signin-confirm';
+
+  static const String deleteAccount = '/user';
+
+  static const String logout = '/user/signout';
 }

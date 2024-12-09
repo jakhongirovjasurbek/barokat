@@ -55,6 +55,7 @@ flutter:
     - assets/icons/
     - assets/icons/platform/
     - assets/images/
+    - assets/images/platform/
 
 
   fonts:

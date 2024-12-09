@@ -1,6 +1,7 @@
 import 'package:barokat/core/theme/screen_size/screen_size.dart';
 import 'package:barokat/core/theme/theme.dart';
 import 'package:barokat/core/ui_kit/button/button.dart';
+import 'package:barokat/core/ui_kit/checkbox/checkbox.dart';
 import 'package:barokat/core/ui_kit/scale/scale.dart';
 import 'package:barokat/core/ui_kit/text_field/text_field.dart';
 import 'package:barokat/generated/l10n.dart';
@@ -130,18 +131,16 @@ class _SignupPageState extends State<SignupPage> {
                         builder: (context, state) {
                           return Row(
                             children: [
-                              Checkbox(
+                              CheckboxX(
                                 value: state.agreeWithPrivacyPolicy,
+                                activeColor: AppTheme.colors.textBrand,
                                 onChanged: (value) {
                                   context
                                       .read<LoginBloc>()
                                       .add(const LoginPrivacyAgreementTapped());
                                 },
-                                side: BorderSide(
-                                  color: AppTheme.colors.borderPrimary,
-                                ),
-                                activeColor: AppTheme.colors.textBrand,
                               ),
+                              SizedBox(width: ScreenSize.w8),
                               Text(
                                 AppLocalization.of(context).agree_privacy,
                                 style: AppTheme.textThemeNormal.textBase,
@@ -150,19 +149,24 @@ class _SignupPageState extends State<SignupPage> {
                           );
                         },
                       ),
-                      SizedBox(height: ScreenSize.h20),
-                      BlocBuilder<LoginBloc, LoginState>(
-                        builder: (context, state) {
-                          return ButtonX(
-                            disabled: !state.agreeWithPrivacyPolicy,
-                            loading: state.status.isLoading,
-                            onTap: () => sendOtp(context),
-                            text: AppLocalization.of(context).send_code,
-                          );
-                        },
-                      ),
                     ],
                   ),
+                ),
+                bottomNavigationBar: BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ScreenSize.w16,
+                        vertical: ScreenSize.h16,
+                      ),
+                      child: ButtonX(
+                        disabled: !state.agreeWithPrivacyPolicy,
+                        loading: state.status.isLoading,
+                        onTap: () => sendOtp(context),
+                        text: AppLocalization.of(context).send_code,
+                      ),
+                    );
+                  },
                 ),
               ),
             );

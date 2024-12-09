@@ -2,4 +2,25 @@ abstract final class PlatformIcons {
   static const chevronLeft = 'assets/icons/platform/chevron_left.svg';
   static const backspace = 'assets/icons/platform/backspace.svg';
   static const lock = 'assets/icons/platform/lock.svg';
+  static const clock = 'assets/icons/platform/clock.svg';
+  static const home = 'assets/icons/platform/home.svg';
+  static const user = 'assets/icons/platform/user.svg';
+  static const logo = 'assets/icons/platform/logo.svg';
+  static const chat = 'assets/icons/platform/chat.svg';
+  static const bell = 'assets/icons/platform/bell.svg';
+  static const empty = 'assets/icons/platform/empty.svg';
+  static const splash = 'assets/icons/platform/splash.svg';
+  static const edit = 'assets/icons/platform/edit.svg';
+  static const email = 'assets/icons/platform/email.svg';
+  static const logout = 'assets/icons/platform/logout.svg';
+  static const parrandachilik = 'assets/icons/platform/parrandachilik.svg';
+  static const chorvachilik = 'assets/icons/platform/chorvachilik.svg';
+  static const uskunalar = 'assets/icons/platform/uskunalar.svg';
+  static const trash = 'assets/icons/platform/trash.svg';
+  static const questionMarkCircle = 'assets/icons/platform/question_mark_circle.svg';
+  static const review = 'assets/icons/platform/review.svg';
+  static const clockInfo = 'assets/icons/platform/clock_info.svg';
+  static const addCircle = 'assets/icons/platform/add_circle.svg';
+  static const puncts = 'assets/icons/platform/puncts.svg';
+  static const chevronRight = 'assets/icons/platform/chevron_right.svg';
 }

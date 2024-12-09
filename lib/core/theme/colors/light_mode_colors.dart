@@ -59,7 +59,7 @@ final class LightModeColors extends PrimitiveColors {
   Color get iconPrimary => _grey950;
 
   @override
-  Color get textPrimary => _grey950;
+  Color get textPrimary => const Color(0XFF1F2024);
 
   @override
   Color get surfacePrimaryLowered => const Color(0xFFF7F8F9);
